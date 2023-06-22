@@ -7,7 +7,19 @@ class Login extends React.Component {
     email: '',
   };
 
-  handleSubmit = () => {};
+  apiToken = async () => {
+    const response = await fetch('https://opentdb.com/api_token.php?command=request');
+    const data = await response.json();
+    return data.token;
+  };
+
+  handleSubmit = async (event) => {
+    event.preventDefault();
+    const { history } = this.props;
+    const token = await this.apiToken();
+    history.push('/game');
+    localStorage.setItem('token', token);
+  };
 
   handleChange = ({ target }) => {
     const { name, value } = target;
@@ -22,33 +34,36 @@ class Login extends React.Component {
   render() {
     const { history } = this.props;
     return (
-      <form onSubmit={ this.handleSubmit }>
-        <input
-          data-testid="input-player-name"
-          type="text"
-          name="name"
-          onChange={ this.handleChange }
-        />
-        <input
-          data-testid="input-gravatar-email"
-          type="email"
-          name="email"
-          onChange={ this.handleChange }
-        />
-        <button
-          data-testid="btn-play"
-          type="submit"
-          disabled={ !this.validate() }
-        >
-          Play
-        </button>
+      <div>
+        <form onSubmit={ this.handleSubmit }>
+          <input
+            data-testid="input-player-name"
+            type="text"
+            name="name"
+            onChange={ this.handleChange }
+          />
+          <input
+            data-testid="input-gravatar-email"
+            type="email"
+            name="email"
+            onChange={ this.handleChange }
+          />
+          <button
+            data-testid="btn-play"
+            type="submit"
+            disabled={ !this.validate() }
+          >
+            Play
+          </button>
+        </form>
         <button
           data-testid="btn-settings"
           onClick={ () => history.push('/settings') }
         >
           Settings
         </button>
-      </form>
+      </div>
+
     );
   }
 }
