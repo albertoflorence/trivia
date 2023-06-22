@@ -32,36 +32,43 @@ class Login extends React.Component {
   };
 
   render() {
+    const { history } = this.props;
     return (
-      <form onSubmit={ this.handleSubmit }>
-        <input
-          data-testid="input-player-name"
-          type="text"
-          name="name"
-          onChange={ this.handleChange }
-        />
-        <input
-          data-testid="input-gravatar-email"
-          type="email"
-          name="email"
-          onChange={ this.handleChange }
-        />
+      <div>
+        <form onSubmit={ this.handleSubmit }>
+          <input
+            data-testid="input-player-name"
+            type="text"
+            name="name"
+            onChange={ this.handleChange }
+          />
+          <input
+            data-testid="input-gravatar-email"
+            type="email"
+            name="email"
+            onChange={ this.handleChange }
+          />
+          <button
+            data-testid="btn-play"
+            type="submit"
+            disabled={ !this.validate() }
+          >
+            Play
+          </button>
+        </form>
         <button
-          data-testid="btn-play"
-          type="submit"
-          disabled={ !this.validate() }
+          data-testid="btn-settings"
+          onClick={ () => history.push('/settings') }
         >
-          Play
+          Settings
         </button>
-      </form>
+      </div>
+
     );
   }
 }
 
 Login.propTypes = {
-  history: PropTypes.shape({
-    push: PropTypes.func,
-  }).isRequired,
+  history: PropTypes.shape({ push: PropTypes.func }).isRequired,
 };
-
 export default Login;
