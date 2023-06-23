@@ -10,6 +10,7 @@ class Game extends Component {
   state = {
     questions: [],
     questionNumber: 0,
+    userAnswers: {},
   };
 
   async componentDidMount() {
@@ -24,6 +25,28 @@ class Game extends Component {
     }
   }
 
+  handleAnswerClick = (answerIndex) => {
+    const { userAnswers, questionNumber } = this.state;
+    this.setState({
+      userAnswers: {
+        ...userAnswers,
+        [questionNumber]: answerIndex,
+      },
+    });
+  };
+
+  getCurrentQuestion = () => {
+    const { questions, questionNumber } = this.state;
+    return questions[questionNumber];
+  };
+
+  answerClassName(index, correctAnswer) {
+    const { questionNumber, userAnswers } = this.state;
+    const userAnswer = userAnswers[questionNumber];
+    if (userAnswer === undefined) return '';
+    return index === correctAnswer ? 'correct-answer' : 'wrong-answer';
+  }
+
   renderQuestion = (data) => {
     if (!data) return null;
     const { category, question, answers, correctAnswerIndex } = data;
@@ -32,13 +55,15 @@ class Game extends Component {
       <div>
         <p data-testid="question-category">{category}</p>
         <p data-testid="question-text">{question}</p>
-        <div data-testid="answer-options">
+        <div data-testid="answer-options" className="answer-options">
           {answers.map((answer, index) => (
             <button
               key={ answer }
               data-testid={
                 correctAnswerIndex === index ? 'correct-answer' : `wrong-answer-${index}`
               }
+              onClick={ () => this.handleAnswerClick(index, correctAnswerIndex) }
+              className={ this.answerClassName(index, correctAnswerIndex) }
             >
               {answer}
             </button>
@@ -49,12 +74,10 @@ class Game extends Component {
   };
 
   render() {
-    const { questions, questionNumber } = this.state;
-
     return (
       <>
         <Header />
-        {this.renderQuestion(questions[questionNumber])}
+        {this.renderQuestion(this.getCurrentQuestion())}
       </>
     );
   }

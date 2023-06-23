@@ -15,7 +15,6 @@ export const fetchQuestions = async (token) => {
   }
   const { results } = response;
   return results.map((result) => {
-    console.log(toCamelCase(result));
     const { question, correctAnswer, incorrectAnswers, category } = toCamelCase(result);
     const answers = shuffleAnswers({ correctAnswer, incorrectAnswers });
     const correctAnswerIndex = answers.indexOf(correctAnswer);
