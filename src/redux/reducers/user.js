@@ -1,4 +1,4 @@
-import { LOGIN } from '../actions';
+import { LOGIN, LOGOUT } from '../actions';
 
 const initialState = {
   name: '',
@@ -12,6 +12,11 @@ const userReducer = (state = initialState, { type, payload }) => {
     return {
       ...state,
       ...payload,
+    };
+  }
+  case LOGOUT: {
+    return {
+      ...initialState,
     };
   }
   default:
