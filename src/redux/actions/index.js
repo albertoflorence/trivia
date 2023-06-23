@@ -1,6 +1,7 @@
-import { gravatarImage } from '../../utils/gravatarImage';
+import { gravatarImage } from '../../utils';
 
 export const LOGIN = 'LOGIN';
+export const LOGOUT = 'LOGOUT';
 
 export const login = (data) => ({
   type: 'LOGIN',
@@ -8,4 +9,8 @@ export const login = (data) => ({
     ...data,
     avatar: gravatarImage(data.email),
   },
+});
+
+export const logout = () => ({
+  type: 'LOGIN',
 });
