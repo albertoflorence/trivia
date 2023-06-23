@@ -1,6 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { apiToken } from '../tests/helpers/fetchAPI';
+import { connect } from 'react-redux';
+
+import { login as actionLogin } from '../redux/actions';
+import { apiToken } from '../services';
 
 class Login extends React.Component {
   state = {
@@ -10,9 +13,12 @@ class Login extends React.Component {
 
   handleSubmit = async (event) => {
     event.preventDefault();
+    const { login } = this.props;
+    const { email, name } = this.state;
     const { history } = this.props;
     const token = await apiToken();
     localStorage.setItem('token', token);
+    login({ email, name });
     history.push('/game');
   };
 
@@ -58,12 +64,17 @@ class Login extends React.Component {
           Settings
         </button>
       </div>
-
     );
   }
 }
 
+const mapDispatchToProps = {
+  login: actionLogin,
+};
+
+export default connect(null, mapDispatchToProps)(Login);
+
 Login.propTypes = {
   history: PropTypes.shape({ push: PropTypes.func }).isRequired,
+  login: PropTypes.func.isRequired,
 };
-export default Login;
