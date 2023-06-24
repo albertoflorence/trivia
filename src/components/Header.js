@@ -19,9 +19,9 @@ class Header extends Component {
   }
 }
 
-const mapStateToProps = ({ user }) => ({
-  userName: user.name,
-  avatar: user.avatar,
+const mapStateToProps = ({ player }) => ({
+  userName: player.name,
+  avatar: player.avatar,
 });
 
 export default connect(mapStateToProps)(Header);
