@@ -52,7 +52,12 @@ class Game extends Component {
   };
 
   handleNextQuestion = () => {
-    const { questionNumber } = this.state;
+    const { questionNumber, questions } = this.state;
+    if (questionNumber === questions.length - 1) {
+      const { history } = this.props;
+      history.push('/feedback');
+      return;
+    }
     this.setState({ questionNumber: questionNumber + 1 });
     this.timer();
   };
