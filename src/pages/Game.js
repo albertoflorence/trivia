@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 
 import Header from '../components/Header';
 import { fetchQuestions } from '../services';
-import { logout as actionLogout } from '../redux/actions';
+import { logout as actionLogout, answer as actionAnswer } from '../redux/actions';
 
 class Game extends Component {
   state = {
@@ -27,7 +27,7 @@ class Game extends Component {
     }
   }
 
-  handleAnswerClick = (answerIndex) => {
+  handleAnswerClick = (answerIndex, correctAnswerIndex) => {
     const { userAnswers, questionNumber } = this.state;
     this.setState({
       userAnswers: {
@@ -35,6 +35,14 @@ class Game extends Component {
         [questionNumber]: answerIndex,
       },
     });
+    this.handleAnswer(answerIndex === correctAnswerIndex);
+  };
+
+  handleAnswer = (isCorrect) => {
+    const { answer } = this.props;
+    const { difficulty } = this.getCurrentQuestion();
+    const { time } = this.state;
+    answer({ isCorrect, reamingTime: time, difficulty });
   };
 
   getCurrentQuestion = () => {
@@ -53,7 +61,11 @@ class Game extends Component {
     const oneSecond = 1000;
     const interval = setInterval(() => {
       const { time } = this.state;
-      if (time === 0) return clearInterval(interval);
+      if (time === 0) {
+        clearInterval(interval);
+        this.handleAnswer(false);
+        return;
+      }
       this.setState((s) => ({ time: s.time - 1 }));
     }, oneSecond);
   }
@@ -73,7 +85,7 @@ class Game extends Component {
               data-testid={
                 correctAnswerIndex === index ? 'correct-answer' : `wrong-answer-${index}`
               }
-              onClick={ () => this.handleAnswerClick(index) }
+              onClick={ () => this.handleAnswerClick(index, correctAnswerIndex) }
               className={ this.answerClassName(index, correctAnswerIndex) }
               disabled={ time === 0 }
             >
@@ -103,6 +115,7 @@ class Game extends Component {
 
 const mapDispatchToProps = {
   logout: actionLogout,
+  answer: actionAnswer,
 };
 
 export default connect(null, mapDispatchToProps)(Game);
@@ -110,4 +123,5 @@ export default connect(null, mapDispatchToProps)(Game);
 Game.propTypes = {
   history: PropTypes.shape({ push: PropTypes.func }).isRequired,
   logout: PropTypes.func.isRequired,
+  answer: PropTypes.func.isRequired,
 };
