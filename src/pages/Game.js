@@ -11,6 +11,7 @@ class Game extends Component {
     questions: [],
     questionNumber: 0,
     userAnswers: {},
+    time: 30,
   };
 
   async componentDidMount() {
@@ -19,6 +20,7 @@ class Game extends Component {
       const token = localStorage.getItem('token');
       const questions = await fetchQuestions(token);
       this.setState({ questions });
+      this.timer();
     } catch (error) {
       logout();
       history.push('/');
@@ -47,7 +49,16 @@ class Game extends Component {
     return index === correctAnswer ? 'correct-answer' : 'wrong-answer';
   }
 
-  renderQuestion = (data) => {
+  timer() {
+    const oneSecond = 1000;
+    const interval = setInterval(() => {
+      const { time } = this.state;
+      if (time === 0) return clearInterval(interval);
+      this.setState((s) => ({ time: s.time - 1 }));
+    }, oneSecond);
+  }
+
+  renderQuestion = (data, time) => {
     if (!data) return null;
     const { category, question, answers, correctAnswerIndex } = data;
 
@@ -62,8 +73,9 @@ class Game extends Component {
               data-testid={
                 correctAnswerIndex === index ? 'correct-answer' : `wrong-answer-${index}`
               }
-              onClick={ () => this.handleAnswerClick(index, correctAnswerIndex) }
+              onClick={ () => this.handleAnswerClick(index) }
               className={ this.answerClassName(index, correctAnswerIndex) }
+              disabled={ time === 0 }
             >
               {answer}
             </button>
@@ -74,10 +86,16 @@ class Game extends Component {
   };
 
   render() {
+    const { time } = this.state;
     return (
       <>
         <Header />
-        {this.renderQuestion(this.getCurrentQuestion())}
+        <span>
+          remaining time:
+          {' '}
+          { time }
+        </span>
+        {this.renderQuestion(this.getCurrentQuestion(), time)}
       </>
     );
   }
