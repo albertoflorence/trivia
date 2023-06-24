@@ -12,6 +12,7 @@ class Game extends Component {
     questionNumber: 0,
     userAnswers: {},
     time: 30,
+    intervalID: 0,
   };
 
   async componentDidMount() {
@@ -25,6 +26,11 @@ class Game extends Component {
       logout();
       history.push('/');
     }
+  }
+
+  componentWillUnmount() {
+    const { intervalID } = this.state;
+    clearInterval(intervalID);
   }
 
   handleAnswerClick = (answerIndex, correctAnswerIndex) => {
@@ -45,6 +51,12 @@ class Game extends Component {
     answer({ isCorrect, reamingTime: time, difficulty });
   };
 
+  handleNextQuestion = () => {
+    const { questionNumber } = this.state;
+    this.setState({ questionNumber: questionNumber + 1 });
+    this.timer();
+  };
+
   getCurrentQuestion = () => {
     const { questions, questionNumber } = this.state;
     return questions[questionNumber];
@@ -58,6 +70,9 @@ class Game extends Component {
   }
 
   timer() {
+    this.setState({ time: 30 });
+    const { intervalID } = this.state;
+    clearInterval(intervalID);
     const oneSecond = 1000;
     const interval = setInterval(() => {
       const { time } = this.state;
@@ -68,6 +83,7 @@ class Game extends Component {
       }
       this.setState((s) => ({ time: s.time - 1 }));
     }, oneSecond);
+    this.setState({ intervalID: interval });
   }
 
   renderQuestion = (data, time) => {
@@ -98,16 +114,22 @@ class Game extends Component {
   };
 
   render() {
-    const { time } = this.state;
+    const { time, userAnswers, questionNumber } = this.state;
+    const isAnswered = userAnswers[questionNumber] !== undefined;
     return (
       <>
         <Header />
         <span>
           remaining time:
           {' '}
-          { time }
+          {time}
         </span>
         {this.renderQuestion(this.getCurrentQuestion(), time)}
+        {isAnswered && (
+          <button data-testid="btn-next" onClick={ this.handleNextQuestion }>
+            Next
+          </button>
+        )}
       </>
     );
   }
