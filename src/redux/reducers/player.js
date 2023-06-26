@@ -36,7 +36,7 @@ const playerReducer = (state = initialState, { type, payload }) => {
     const { isCorrect, reamingTime, difficulty } = payload;
     return {
       ...state,
-      assertions: assertions + 1,
+      assertions: (isCorrect ? 1 : 0) + assertions,
       score: isCorrect ? correctAnswer(reamingTime, difficulty) + score : score,
     };
   }
