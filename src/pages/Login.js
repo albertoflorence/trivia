@@ -4,6 +4,8 @@ import { connect } from 'react-redux';
 
 import { login as actionLogin } from '../redux/actions';
 import { apiToken } from '../services';
+import Logo from '../components/Logo';
+import SettingIcon from '../components/icons/Setting';
 
 class Login extends React.Component {
   state = {
@@ -35,18 +37,21 @@ class Login extends React.Component {
   render() {
     const { history } = this.props;
     return (
-      <div>
-        <form onSubmit={ this.handleSubmit }>
-          <input
-            data-testid="input-player-name"
-            type="text"
-            name="name"
-            onChange={ this.handleChange }
-          />
+      <div className="login">
+        <Logo />
+        <form onSubmit={ this.handleSubmit } className="login-form">
           <input
             data-testid="input-gravatar-email"
             type="email"
             name="email"
+            placeholder="Qual é o seu e-mail do gravatar?"
+            onChange={ this.handleChange }
+          />
+          <input
+            data-testid="input-player-name"
+            type="text"
+            name="name"
+            placeholder="Qual é o seu nome?"
             onChange={ this.handleChange }
           />
           <button
@@ -54,15 +59,17 @@ class Login extends React.Component {
             type="submit"
             disabled={ !this.validate() }
           >
-            Play
+            Jogar
+          </button>
+          <button
+            data-testid="btn-settings"
+            type="button"
+            onClick={ () => history.push('/settings') }
+          >
+            <SettingIcon />
+            Configurações
           </button>
         </form>
-        <button
-          data-testid="btn-settings"
-          onClick={ () => history.push('/settings') }
-        >
-          Settings
-        </button>
       </div>
     );
   }
