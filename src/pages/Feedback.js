@@ -18,9 +18,19 @@ class Feedback extends Component {
         <p data-testid="header-player-name">{name}</p>
         <p data-testid="header-score">{score}</p>
         {assertions < number && <p data-testid="feedback-text">Could be better...</p>}
-        {assertions >= number && <p data-testid="feedback-text">Well done!</p>}
-        <p data-testid="feedback-total-score">{score}</p>
-        <p data-testid="feedback-total-question">{assertions}</p>
+        {assertions >= number && <p data-testid="feedback-text">Well Done!</p>}
+        <p
+          data-testid="feedback-total-score"
+        >
+          {score}
+
+        </p>
+        <p
+          data-testid="feedback-total-question"
+        >
+          {assertions}
+
+        </p>
       </header>
     );
   }
