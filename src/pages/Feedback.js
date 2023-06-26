@@ -6,7 +6,7 @@ import { gravatarImage } from '../utils';
 class Feedback extends Component {
   render() {
     console.log('oi');
-    const { name, score, gravatarEmail, assertions } = this.props;
+    const { name, score, gravatarEmail, assertions, history } = this.props;
     const number = 3;
     return (
       <header>
@@ -23,14 +23,18 @@ class Feedback extends Component {
           data-testid="feedback-total-score"
         >
           {score}
-
         </p>
         <p
           data-testid="feedback-total-question"
         >
           {assertions}
-
         </p>
+        <button
+          data-testid="btn-play-again"
+          onClick={ () => history.push('/') }
+        >
+          Play again
+        </button>
       </header>
     );
   }
@@ -48,6 +52,7 @@ Feedback.propTypes = {
   score: PropTypes.number.isRequired,
   gravatarEmail: PropTypes.string.isRequired,
   assertions: PropTypes.number.isRequired,
+  history: PropTypes.shape({ push: PropTypes.func }).isRequired,
 };
 
 export default connect(mapStateToProps)(Feedback);
