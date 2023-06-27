@@ -5,6 +5,10 @@ import PropTypes from 'prop-types';
 import Header from '../components/Header';
 import { fetchQuestions } from '../services';
 import { logout as actionLogout, answer as actionAnswer } from '../redux/actions';
+import Logo from '../components/Logo';
+import Timer from '../components/icons/Timer';
+
+const colors = ['yellow', 'blue', 'red', 'green', 'purple'];
 
 class Game extends Component {
   state = {
@@ -91,51 +95,96 @@ class Game extends Component {
     this.setState({ intervalID: interval });
   }
 
-  renderQuestion = (data, time) => {
-    if (!data) return null;
-    const { category, question, answers, correctAnswerIndex } = data;
+  alternative(index, correctAnswer, isAnswered) {
+    const alternatives = ['A', 'B', 'C', 'D'];
+    if (isAnswered) {
+      return index === correctAnswer ? '✔' : '✖';
+    }
+    return alternatives[index];
+  }
 
+  renderTimer(time) {
     return (
-      <div>
-        <p data-testid="question-category">{category}</p>
-        <p data-testid="question-text">{question}</p>
-        <div data-testid="answer-options" className="answer-options">
-          {answers.map((answer, index) => (
-            <button
-              key={ answer }
-              data-testid={
-                correctAnswerIndex === index ? 'correct-answer' : `wrong-answer-${index}`
-              }
-              onClick={ () => this.handleAnswerClick(index, correctAnswerIndex) }
-              className={ this.answerClassName(index, correctAnswerIndex) }
-              disabled={ time === 0 }
-            >
-              {answer}
-            </button>
-          ))}
-        </div>
-      </div>
+      <p className="question-time">
+        <Timer />
+        Tempo:
+        {' '}
+        {time}
+        s
+      </p>
     );
-  };
+  }
 
   render() {
     const { time, userAnswers, questionNumber } = this.state;
     const isAnswered = userAnswers[questionNumber] !== undefined;
+    const question = this.getCurrentQuestion();
+    const {
+      category = '',
+      question: title = '',
+      answers = [],
+      correctAnswerIndex,
+    } = question || {};
+
     return (
-      <>
+      <div className="container">
         <Header />
-        <span>
-          remaining time:
-          {' '}
-          {time}
-        </span>
-        {this.renderQuestion(this.getCurrentQuestion(), time)}
-        {isAnswered && (
-          <button data-testid="btn-next" onClick={ this.handleNextQuestion }>
-            Next
-          </button>
-        )}
-      </>
+        <div className="game">
+          <div>
+            <div className="game-logo">
+              <Logo size="small" />
+            </div>
+            <div className="game-question">
+              <p
+                className={ `question-category ${
+                  colors[questionNumber]}` }
+                data-testid="question-category"
+              >
+                {category}
+              </p>
+              <p data-testid="question-text" className="question-text">
+                {title}
+              </p>
+              {this.renderTimer(time)}
+            </div>
+          </div>
+          <div className="game-answers">
+            <div data-testid="answer-options">
+              {answers.map((answer, index) => (
+                <button
+                  key={ answer }
+                  data-testid={
+                    correctAnswerIndex === index
+                      ? 'correct-answer'
+                      : `wrong-answer-${index}`
+                  }
+                  onClick={ () => this.handleAnswerClick(index, correctAnswerIndex) }
+                  className={ `answer-content ${this.answerClassName(
+                    index,
+                    correctAnswerIndex,
+                  )} ${isAnswered && (correctAnswerIndex === index ? 'green' : 'red')}
+                  ` }
+                  disabled={ time === 0 }
+                >
+                  <span className="answer-alternative">
+                    {this.alternative(index, correctAnswerIndex, isAnswered)}
+                  </span>
+                  {answer}
+                </button>
+              ))}
+            </div>
+            {isAnswered && (
+              <button
+                data-testid="btn-next"
+                onClick={ this.handleNextQuestion }
+                className="next-btn"
+              >
+                Next
+              </button>
+            )}
+          </div>
+        </div>
+      </div>
     );
   }
 }

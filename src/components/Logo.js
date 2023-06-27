@@ -1,8 +1,15 @@
-function Logo() {
+import PropTypes from 'prop-types';
+
+const sizes = {
+  medium: '250',
+  small: '200',
+};
+
+function Logo({ size = 'medium' }) {
   return (
     <svg
-      width="250"
-      height="267"
+      width={ sizes[size] }
+      height={ sizes[size] }
       viewBox="0 0 250 267"
       xmlns="http://www.w3.org/2000/svg"
     >
@@ -10,8 +17,7 @@ function Logo() {
         d="M125.67 266.033L99.4041 220.538L151.937 220.538L125.67 266.033Z"
         fill="#2FC18C"
       />
-      <g filter="url(#filter0_di_9_298)">
-        <ellipse cx="125" cy="122.599" rx="115" ry="115.632" fill="#3C1B7A" />
+      <g>
         <path
           d="M125 241.231C190.185 241.231 243 188.102 243 122.599C243 57.0959 190.185
             3.96704 125 3.96704C59.8149 3.96704 7 57.0959 7 122.599C7 188.102 59.8149
@@ -19,6 +25,7 @@ function Logo() {
           stroke="#2FC18C"
           strokeWidth="6"
         />
+        <ellipse cx="125" cy="123" rx="115" ry="116" fill="#3C1B7A" />
       </g>
       <path
         d="M118.374 101.663L133.738 101.733L133.67 116.633L118.307 116.563L118.374
@@ -147,3 +154,5 @@ function Logo() {
 }
 
 export default Logo;
+
+Logo.propTypes = { size: PropTypes.string };
