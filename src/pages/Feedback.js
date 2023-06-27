@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import { withRouter } from 'react-router-dom';
 import { gravatarImage } from '../utils';
 
 class Feedback extends Component {
@@ -61,4 +62,4 @@ Feedback.propTypes = {
   history: PropTypes.shape({ push: PropTypes.func }).isRequired,
 };
 
-export default connect(mapStateToProps)(Feedback);
+export default connect(mapStateToProps)(withRouter(Feedback));
