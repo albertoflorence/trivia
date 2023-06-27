@@ -173,15 +173,13 @@ class Game extends Component {
                 </button>
               ))}
             </div>
-            {isAnswered && (
-              <button
-                data-testid="btn-next"
-                onClick={ this.handleNextQuestion }
-                className="next-btn"
-              >
-                Next
-              </button>
-            )}
+            <button
+              data-testid="btn-next"
+              onClick={ this.handleNextQuestion }
+              className={ `next-btn ${isAnswered || 'invisible'}` }
+            >
+              Próxima
+            </button>
           </div>
         </div>
       </div>
