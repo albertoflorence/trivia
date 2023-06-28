@@ -1,8 +1,9 @@
 import PropTypes from 'prop-types';
 
 const sizes = {
-  medium: '260',
-  small: '230',
+  large: '260',
+  medium: '230',
+  small: '155',
 };
 
 function Logo({ size = 'medium' }) {

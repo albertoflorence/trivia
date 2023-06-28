@@ -131,7 +131,7 @@ class Game extends Component {
         <div className="game">
           <div>
             <div className="game-logo">
-              <Logo size="small" />
+              <Logo />
             </div>
             <div className="game-question">
               <p
