@@ -38,7 +38,7 @@ class Login extends React.Component {
     const { history } = this.props;
     return (
       <div className="login">
-        <Logo />
+        <Logo size="large" />
         <form onSubmit={ this.handleSubmit } className="login-form">
           <input
             data-testid="input-gravatar-email"

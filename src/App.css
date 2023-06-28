@@ -253,3 +253,84 @@ button:hover {
   text-transform: uppercase;
   width: 550px;
 }
+
+.feedback {
+  align-items: center;
+  background-image: linear-gradient(180deg, #3c1b7a 0%, black 100%);
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  padding-top: 5vh;
+}
+
+.feedback-avatar {
+  background-color: gainsboro;
+  border: 4px solid;
+  border-radius: 104.412px;
+  height: 212px;
+  margin-top: -40%;
+  width: 212px;
+}
+
+.feedback-card {
+  background: white;
+  border-radius: 10px;
+  box-shadow: 1px 4px 13px 2px rgba(0, 0, 0, 0.2);
+  margin-top: 148px;
+  padding: 0 46px 46px;
+  text-align: center;
+}
+
+.feedback-card.green .feedback-avatar {
+  border-color: #2fc18c;
+  box-shadow: 0 0 9px 0 #2fc18c;
+}
+
+.feedback-card.red .feedback-avatar {
+  border-color: #ea5d5d;
+  box-shadow: 0 0 9px 0 #ea5d5d;
+}
+
+.feedback-text {
+  font-size: 30px;
+  font-weight: 700;
+  line-height: 150%;
+  margin: 16px 0;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+.feedback-card.green .feedback-text {
+  color: #2fc18c;
+}
+
+.feedback-card.red .feedback-text {
+  color: #ea5d5d;
+}
+
+.feedback-score {
+  color: #b5b5b5;
+  font-weight: 700;
+  line-height: 150%;
+  text-align: center;
+}
+
+.feedback-action {
+  display: flex;
+  gap: 16px;
+  margin-top: 16px;
+  width: 420px;
+}
+
+.btn-feedback {
+  border: none;
+  border-radius: 5px;
+  box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.25);
+  color: white;
+  flex: 1;
+  font-weight: 700;
+  letter-spacing: 1.92px;
+  line-height: 150%;
+  padding: 8px;
+  text-align: center;
+}
