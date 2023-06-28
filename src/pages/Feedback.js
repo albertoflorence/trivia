@@ -2,10 +2,15 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
-import { gravatarImage } from '../utils';
+import { addToRanking, gravatarImage } from '../utils';
 import Logo from '../components/Logo';
 
 class Feedback extends Component {
+  componentDidMount() {
+    const { name, score, gravatarEmail } = this.props;
+    addToRanking({ name, score, gravatarEmail });
+  }
+
   render() {
     const { name, score, gravatarEmail, assertions, history } = this.props;
     const number = 3;

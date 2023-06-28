@@ -21,3 +21,11 @@ export const shuffleAnswers = ({ correctAnswer, incorrectAnswers }) => {
   );
   return shuffledAnswers;
 };
+
+export const getRanking = () => JSON.parse(localStorage.getItem('ranking') || '[]');
+
+export const addToRanking = (player) => {
+  const ranking = getRanking();
+  ranking.push(player);
+  localStorage.setItem('ranking', JSON.stringify(ranking));
+};
