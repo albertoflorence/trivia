@@ -95,11 +95,10 @@ class Game extends Component {
     this.setState({ intervalID: interval });
   }
 
-  alternative(index, correctAnswer, isAnswered) {
+  alternative(index, correctAnswer, isAnswered, questionsQuantity) {
     const alternatives = ['A', 'B', 'C', 'D'];
-    if (isAnswered) {
-      return index === correctAnswer ? '✔' : '✖';
-    }
+    if (isAnswered) return index === correctAnswer ? '✔' : '✖';
+    if (questionsQuantity === 2) return '';
     return alternatives[index];
   }
 
@@ -136,8 +135,7 @@ class Game extends Component {
             </div>
             <div className="game-question">
               <p
-                className={ `question-category ${
-                  colors[questionNumber]}` }
+                className={ `question-category ${colors[questionNumber]}` }
                 data-testid="question-category"
               >
                 {category}
@@ -167,14 +165,19 @@ class Game extends Component {
                   disabled={ time === 0 }
                 >
                   <span className="answer-alternative">
-                    {this.alternative(index, correctAnswerIndex, isAnswered)}
+                    {this.alternative(
+                      index,
+                      correctAnswerIndex,
+                      isAnswered,
+                      answers.length,
+                    )}
                   </span>
                   {answer}
                 </button>
               ))}
             </div>
             <button
-              data-testid="btn-next"
+              data-testid={ isAnswered && 'btn-next' }
               onClick={ this.handleNextQuestion }
               className={ `next-btn ${isAnswered || 'invisible'}` }
             >

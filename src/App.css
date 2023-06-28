@@ -103,7 +103,7 @@ button:hover {
   background-color: white;
   display: flex;
   height: 113px;
-  justify-content: end;
+  justify-content: flex-end;
   padding-right: 100px;
 }
 
@@ -212,6 +212,7 @@ button:hover {
 }
 
 .answer-content.red {
+  border-color: red;
   box-shadow: 0 0 20px 1px #ea5d5de5;
 }
 
@@ -220,19 +221,12 @@ button:hover {
 }
 
 .answer-content.green {
+  border-color: rgb(6, 240, 15);
   box-shadow: 0 0 20px 1px #2fc18ce5;
 }
 
 .answer-content.green > span {
   background-color: #2fc18c;
-}
-
-.answer-options .correct-answer {
-  border-color: rgb(6, 240, 15);
-}
-
-.answer-options .wrong-answer {
-  border-color: red;
 }
 
 .answer-alternative {
