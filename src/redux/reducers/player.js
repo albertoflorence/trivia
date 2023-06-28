@@ -22,7 +22,7 @@ const playerReducer = (state = initialState, { type, payload }) => {
   switch (type) {
   case LOGIN: {
     return {
-      ...state,
+      ...initialState,
       ...payload,
     };
   }
