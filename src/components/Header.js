@@ -5,7 +5,7 @@ import Star from './icons/Star';
 
 class Header extends Component {
   render() {
-    const { userName, avatar } = this.props;
+    const { userName, avatar, score } = this.props;
     return (
       <header className="header">
         <div>
@@ -19,7 +19,11 @@ class Header extends Component {
           </div>
           <div className="header-score">
             <Star />
-            <span data-testid="header-score">Pontos: 0</span>
+            <span data-testid="header-score">
+              Pontos:
+              {' '}
+              {score}
+            </span>
           </div>
         </div>
       </header>
@@ -30,6 +34,7 @@ class Header extends Component {
 const mapStateToProps = ({ player }) => ({
   userName: player.name,
   avatar: player.avatar,
+  score: player.score,
 });
 
 export default connect(mapStateToProps)(Header);
@@ -37,4 +42,5 @@ export default connect(mapStateToProps)(Header);
 Header.propTypes = {
   userName: PropTypes.string.isRequired,
   avatar: PropTypes.string.isRequired,
+  score: PropTypes.number.isRequired,
 };
